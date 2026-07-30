@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cardápio Musical | Lilian e Marinho</title>
+  <style>
+    :root{--bg:#090909;--card:#151515;--gold:#d9ad57;--text:#fff;--muted:#bbb}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(#080808,#111);color:var(--text);font-family:Arial,sans-serif}
+    header{padding:28px 18px 18px;text-align:center;border-bottom:1px solid #2b2b2b}
+    h1{margin:0;color:var(--gold);font-size:2rem} .tag{margin:8px 0 0;color:#eee}
+    main{max-width:760px;margin:auto;padding:20px 14px 50px}
+    .search{width:100%;padding:15px;border-radius:12px;border:1px solid #333;background:#181818;color:white;font-size:16px;margin-bottom:16px}
+    .song{background:var(--card);border:1px solid #292929;border-radius:14px;padding:15px;margin:10px 0;display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .song b{display:block;font-size:17px}.song small{color:var(--muted)}
+    button{border:0;border-radius:10px;padding:11px 14px;background:var(--gold);color:#111;font-weight:700}
+    .empty,.loading{text-align:center;color:var(--muted);padding:25px}
+    dialog{border:1px solid #333;border-radius:16px;background:#151515;color:#fff;width:min(92vw,480px)}
+    dialog::backdrop{background:#000b}.field{width:100%;padding:12px;margin:7px 0;border-radius:9px;border:1px solid #444;background:#222;color:#fff}
+    .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}.secondary{background:#333;color:#fff}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Cardápio Musical</h1>
+  <p class="tag">Você escolhe, a gente toca 🎶</p>
+</header>
+<main>
+  <input id="search" class="search" placeholder="Buscar música ou artista…">
+  <div id="songs" class="loading">Carregando repertório…</div>
+</main>
+
+<dialog id="pedido">
+  <h2 id="selected">Pedir música</h2>
+  <input id="cliente" class="field" placeholder="Seu nome">
+  <input id="mesa" class="field" placeholder="Mesa (opcional)">
+  <textarea id="recado" class="field" placeholder="Recado (opcional)"></textarea>
+  <div class="actions">
+    <button class="secondary" onclick="pedido.close()">Cancelar</button>
+    <button onclick="enviar()">Enviar pedido 🎤</button>
+  </div>
+</dialog>
+
+<script>
+const SUPABASE_URL = "https://draghvtqqrwpdbveweki.supabase.co";
+const SUPABASE_KEY = "sb_publishable_-9VJebAOVl5_1a_ukBEIxA_0iy9pa14";
+let musicas=[], atual=null;
+const songs=document.getElementById('songs'), search=document.getElementById('search'), pedido=document.getElementById('pedido');
+
+async function carregar(){
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/musicas?select=id,titulo,artista,categoria&ativa=eq.true&order=titulo.asc`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok) throw new Error(await r.text());
+    musicas=await r.json(); render(musicas);
+  }catch(e){ songs.innerHTML='<div class="empty">Não foi possível carregar o repertório.</div>'; }
+}
+function render(lista){
+  if(!lista.length){songs.innerHTML='<div class="empty">Nenhuma música encontrada.</div>';return}
+  songs.innerHTML=lista.map(m=>`<div class="song"><div><b>${esc(m.titulo)}</b><small>${esc(m.artista||'')}</small></div><button onclick='abrir(${JSON.stringify(m.id)},${JSON.stringify(m.titulo)},${JSON.stringify(m.artista||"")})'>Pedir 🎤</button></div>`).join('');
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function abrir(id,titulo,artista){atual={id,titulo,artista};document.getElementById('selected').textContent=titulo+(artista?' — '+artista:'');pedido.showModal()}
+async function enviar(){
+  if(!atual)return;
+  const body={musica_id:atual.id,musica:atual.titulo,artista:atual.artista,cliente:document.getElementById('cliente').value.trim()||null,mesa:document.getElementById('mesa').value.trim()||null,recado:document.getElementById('recado').value.trim()||null,status:'aguardando'};
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/pedidos`,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});
+  if(r.ok){alert('Pedido enviado! 🎶');pedido.close();document.getElementById('cliente').value='';document.getElementById('mesa').value='';document.getElementById('recado').value='';}
+  else alert('Não foi possível enviar o pedido.');
+}
+search.addEventListener('input',()=>{const q=search.value.toLowerCase().trim();render(musicas.filter(m=>(m.titulo+' '+(m.artista||'')).toLowerCase().includes(q)))});
+carregar();
+</script>
+</body>
+</html>
