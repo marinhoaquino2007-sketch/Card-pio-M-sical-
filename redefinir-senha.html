@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Senha | Lilian e Marinho</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      background: #080808;
+      color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      padding: 32px 24px;
+      border: 1px solid #333;
+      border-radius: 22px;
+      background: #151515;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #edbd4e;
+      font-size: 32px;
+    }
+
+    .subtitulo {
+      margin: 0 0 28px;
+      color: #bdbdbd;
+      font-size: 17px;
+    }
+
+    input {
+      width: 100%;
+      padding: 17px;
+      margin-bottom: 14px;
+      border: 1px solid #3b3b3b;
+      border-radius: 13px;
+      background: #202020;
+      color: white;
+      font-size: 17px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 17px;
+      border: 0;
+      border-radius: 13px;
+      background: #edbd4e;
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .erro {
+      color: #ff8080;
+    }
+
+    .sucesso {
+      color: #75e09b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>Nova senha</h1>
+    <p class="subtitulo">Lilian e Marinho 🎶</p>
+
+    <input
+      type="password"
+      id="senha"
+      placeholder="Digite a nova senha"
+      autocomplete="new-password"
+    >
+
+    <input
+      type="password"
+      id="confirmar"
+      placeholder="Confirme a nova senha"
+      autocomplete="new-password"
+    >
+
+    <button id="botao" onclick="alterarSenha()">
+      Salvar nova senha
+    </button>
+
+    <div id="mensagem"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = 'https://draghvtqqrwpdbveweki.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_-9VJebAOVl5_1a_ukBEIxA_0iy9pa14';
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    async function alterarSenha() {
+      const senha = document.getElementById('senha').value;
+      const confirmar = document.getElementById('confirmar').value;
+      const mensagem = document.getElementById('mensagem');
+      const botao = document.getElementById('botao');
+
+      mensagem.className = '';
+      mensagem.textContent = '';
+
+      if (senha.length < 6) {
+        mensagem.className = 'erro';
+        mensagem.textContent =
+          'A senha precisa ter pelo menos 6 caracteres.';
+        return;
+      }
+
+      if (senha !== confirmar) {
+        mensagem.className = 'erro';
+        mensagem.textContent =
+          'As duas senhas precisam ser iguais.';
+        return;
+      }
+
+      botao.disabled = true;
+      botao.textContent = 'Salvando...';
+
+      const { error } = await supabaseClient.auth.updateUser({
+        password: senha
+      });
+
+      if (error) {
+        mensagem.className = 'erro';
+        mensagem.textContent =
+          'Não foi possível alterar a senha: ' + error.message;
+
+        botao.disabled = false;
+        botao.textContent = 'Salvar nova senha';
+        return;
+      }
+
+      mensagem.className = 'sucesso';
+      mensagem.textContent =
+        'Senha alterada com sucesso! Abrindo o Painel dos Artistas...';
+
+      setTimeout(() => {
+        window.location.href = '/painel.html';
+      }, 1800);
+    }
+  </script>
+
+</body>
+</html>
