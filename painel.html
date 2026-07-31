@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel dos Artistas | Lilian e Marinho</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #090909;
+      --card: #151515;
+      --card2: #1d1d1d;
+      --gold: #e7b94f;
+      --text: #ffffff;
+      --muted: #aaa;
+      --border: #303030;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 760px;
+      margin: auto;
+      padding: 24px 16px 60px;
+    }
+
+    h1 {
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .principal {
+      width: 100%;
+      background: var(--gold);
+      color: #111;
+    }
+
+    .sair {
+      background: #333;
+      color: white;
+    }
+
+    .status {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .pedido {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .pedido h3 {
+      margin: 0 0 5px;
+      color: var(--gold);
+    }
+
+    .pedido p {
+      margin: 5px 0;
+      color: #ddd;
+    }
+
+    .acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .vazio {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px;
+    }
+
+    #painel {
+      display: none;
+    }
+
+    #mensagem {
+      color: #ff7777;
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<main>
+
+  <section id="login">
+    <h1>Painel dos Artistas</h1>
+    <p class="subtitulo">Lilian e Marinho 🎶</p>
+
+    <div class="card">
+      <input
+        id="email"
+        type="email"
+        placeholder="E-mail"
+        autocomplete="email"
+      >
+
+      <input
+        id="senha"
+        type="password"
+        placeholder="Senha"
+        autocomplete="current-password"
+      >
+
+      <button class="principal" onclick="entrar()">
+        Entrar
+      </button>
+
+      <div id="mensagem"></div>
+    </div>
+  </section>
+
+
+  <section id="painel">
+
+    <div class="topo">
+      <div>
+        <h2 style="margin:0;color:#e7b94f;">
+          Pedidos ao vivo
+        </h2>
+        <small style="color:#aaa;">
+          Lilian e Marinho
+        </small>
+      </div>
+
+      <button class="sair" onclick="sair()">
+        Sair
+      </button>
+    </div>
+
+    <div id="pedidos">
+      <div class="vazio">
+        Carregando pedidos...
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL = 'COLE_AQUI_SUA_SUPABASE_URL';
+
+const SUPABASE_KEY = 'COLE_AQUI_SUA_CHAVE_PUBLISHABLE';
+
+const supabaseClient =
+  supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+async function entrar() {
+
+  const email =
+    document.getElementById('email').value.trim();
+
+  const senha =
+    document.getElementById('senha').value;
+
+  const mensagem =
+    document.getElementById('mensagem');
+
+  mensagem.textContent = 'Entrando...';
+
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+  if (error) {
+
+    mensagem.textContent =
+      'Não foi possível entrar. Confira e-mail e senha.';
+
+    return;
+  }
+
+  mensagem.textContent = '';
+
+  mostrarPainel();
+}
+
+
+async function sair() {
+
+  await supabaseClient.auth.signOut();
+
+  document.getElementById('painel').style.display =
+    'none';
+
+  document.getElementById('login').style.display =
+    'block';
+}
+
+
+async function mostrarPainel() {
+
+  document.getElementById('login').style.display =
+    'none';
+
+  document.getElementById('painel').style.display =
+    'block';
+
+  await carregarPedidos();
+
+  iniciarRealtime();
+}
+
+
+async function carregarPedidos() {
+
+  const area =
+    document.getElementById('pedidos');
+
+  const { data, error } =
+    await supabaseClient
+      .from('pedidos')
+      .select('*')
+      .order('created_at', {
+        ascending: false
+      });
+
+  if (error) {
+
+    area.innerHTML =
+      '<div class="vazio">Não foi possível carregar os pedidos.</div>';
+
+    return;
+  }
+
+  renderPedidos(data || []);
+}
+
+
+function renderPedidos(lista) {
+
+  const area =
+    document.getElementById('pedidos');
+
+  if (!lista.length) {
+
+    area.innerHTML =
+      '<div class="vazio">Nenhum pedido no momento 🎵</div>';
+
+    return;
+  }
+
+  area.innerHTML =
+    lista.map(pedido => {
+
+      const titulo =
+        escapeHTML(
+          pedido.musica ||
+          pedido.titulo ||
+          'Música'
+        );
+
+      const artista =
+        escapeHTML(
+          pedido.artista || ''
+        );
+
+      const nome =
+        escapeHTML(
+          pedido.nome ||
+          pedido.cliente ||
+          ''
+        );
+
+      const status =
+        escapeHTML(
+          pedido.status ||
+          'novo'
+        );
+
+      return `
+        <div class="pedido">
+
+          <h3>${titulo}</h3>
+
+          ${
+            artista
+              ? `<p>${artista}</p>`
+              : ''
+          }
+
+          ${
+            nome
+              ? `<p><strong>Pedido por:</strong> ${nome}</p>`
+              : ''
+          }
+
+          <p>
+            <strong>Status:</strong>
+            ${status}
+          </p>
+
+          <div class="acoes">
+
+            <button
+              class="status"
+              onclick="alterarStatus('${pedido.id}','recebido')">
+              Recebido
+            </button>
+
+            <button
+              class="status"
+              onclick="alterarStatus('${pedido.id}','tocando')">
+              Tocando
+            </button>
+
+            <button
+              class="status"
+              onclick="alterarStatus('${pedido.id}','concluido')">
+              Concluído
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join('');
+}
+
+
+async function alterarStatus(id, status) {
+
+  const { error } =
+    await supabaseClient
+      .from('pedidos')
+      .update({
+        status: status
+      })
+      .eq('id', id);
+
+  if (error) {
+
+    alert(
+      'Não foi possível atualizar o pedido.'
+    );
+
+    return;
+  }
+
+  carregarPedidos();
+}
+
+
+function iniciarRealtime() {
+
+  supabaseClient
+    .channel('pedidos-ao-vivo')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'pedidos'
+      },
+      () => {
+        carregarPedidos();
+      }
+    )
+    .subscribe();
+}
+
+
+function escapeHTML(valor) {
+
+  const div =
+    document.createElement('div');
+
+  div.textContent =
+    valor ?? '';
+
+  return div.innerHTML;
+}
+
+
+supabaseClient.auth
+  .getSession()
+  .then(({ data }) => {
+
+    if (data.session) {
+      mostrarPainel();
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
