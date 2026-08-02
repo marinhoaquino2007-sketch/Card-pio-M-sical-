@@ -67,7 +67,14 @@ async function enviar(){
   if(!atual)return;
   const body={musica_id:atual.id,musica:atual.titulo,artista:atual.artista,cliente:document.getElementById('cliente').value.trim()||null,mesa:document.getElementById('mesa').value.trim()||null,recado:document. getElementById('recado').value.trim()||null,status:'aguardando'};
   const r=await fetch(`${SUPABASE_URL}/rest/v1/pedidos`,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});
-  if(r.ok){alert('Pedido enviado! 🎶');pedido.close();document.getElementById('cliente').value='';document.getElementById('mesa').value='';document.getElementById('recado').value='';}
+  if(r.ok){
+  pedido.close();
+  document.getElementById('cliente').value='';
+  document.getElementById('mesa').value='';
+  document.getElementById('recado').value='';
+
+  alert('🎉 Pedido enviado com sucesso!\n\nObrigado por prestigiar a música ao vivo!\n\nLilian & Marinho agradecem sua presença ❤️');
+}
   else alert('Não foi possível enviar o pedido.');
 }
 search.addEventListener('input',()=>{const q=search.value.toLowerCase().trim();render(musicas.filter(m=>(m.titulo+' '+(m.artista||'')).toLowerCase().includes(q)))});
