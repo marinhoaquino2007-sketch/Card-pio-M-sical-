@@ -1,0 +1,260 @@
+/* =========================================================
+   CARDÁPIO MUSICAL — LILIAN E MARINHO
+   V1 — ESTILO INICIAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #fff;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+#app {
+    width: 100%;
+    max-width: 650px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 20px 16px 30px;
+}
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+#cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0 25px;
+}
+
+#logo-area {
+    flex-shrink: 0;
+}
+
+#logo-artistas {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d4af37;
+}
+
+#titulo-area h1 {
+    font-size: 26px;
+    line-height: 1.1;
+    color: #d4af37;
+}
+
+#titulo-area p {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #ddd;
+}
+
+/* =========================================================
+   BOAS-VINDAS
+   ========================================================= */
+
+#boas-vindas {
+    text-align: center;
+    padding: 20px 10px 25px;
+}
+
+#boas-vindas h2 {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+#boas-vindas p {
+    color: #ccc;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   BUSCA
+   ========================================================= */
+
+#busca-area {
+    margin-bottom: 28px;
+}
+
+#busca-area label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ddd;
+}
+
+#campo-busca {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #555;
+    border-radius: 12px;
+    outline: none;
+    background: #202020;
+    color: #fff;
+}
+
+#campo-busca::placeholder {
+    color: #999;
+}
+
+#campo-busca:focus {
+    border-color: #d4af37;
+}
+
+/* =========================================================
+   LISTA DE MÚSICAS
+   ========================================================= */
+
+#musicas-area h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+#lista-musicas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#carregando-musicas {
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    background: #1d1d1d;
+    color: #bbb;
+}
+
+/* =========================================================
+   MODAIS
+   ========================================================= */
+
+.modal-container {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.82);
+}
+
+.modal-container.oculto {
+    display: none;
+}
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+
+#rodape {
+    margin-top: 50px;
+    padding: 25px 10px;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+
+#rodape p {
+    margin: 5px 0;
+    color: #999;
+    font-size: 13px;
+}
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    #app {
+        padding: 15px 12px 25px;
+    }
+
+    #cabecalho {
+        padding-top: 15px;
+    }
+
+    #logo-artistas {
+        width: 62px;
+        height: 62px;
+    }
+
+    #titulo-area h1 {
+        font-size: 22px;
+    }
+
+    #boas-vindas h2 {
+        font-size: 21px;
+    }
+}
+
+/* =========================================================
+   BOTÕES DAS MÚSICAS
+   ========================================================= */
+
+.musica-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+
+    padding: 16px;
+
+    border: 1px solid #333;
+    border-radius: 12px;
+
+    background: #1d1d1d;
+    color: #fff;
+
+    text-align: left;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.musica-item:hover {
+    transform: translateY(-2px);
+    border-color: #d4af37;
+    background: #242424;
+}
+
+.musica-item:active {
+    transform: scale(0.98);
+}
+
+.musica-item strong {
+    font-size: 16px;
+    color: #fff;
+}
+
+.musica-item span {
+    font-size: 13px;
+    color: #aaa;
+}
+

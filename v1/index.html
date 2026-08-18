@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
+
+    <meta
+        name="description"
+        content="Cardápio Musical - Lilian e Marinho"
+    >
+
+    <title>Cardápio Musical | Lilian e Marinho</title>
+
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         CARDÁPIO MUSICAL
+         LILIAN E MARINHO
+         V1 - CONSTRUÍDO DO ZERO
+         ===================================================== -->
+
+    <main id="app">
+
+        <!-- CABEÇALHO -->
+        <header id="cabecalho">
+
+            <div id="logo-area">
+                <img
+                    id="logo-artistas"
+                    src="../icons/icon-192.png"
+                    alt="Lilian e Marinho"
+                >
+            </div>
+
+            <div id="titulo-area">
+                <h1>Cardápio Musical</h1>
+                <p>Lilian e Marinho</p>
+            </div>
+
+        </header>
+
+
+        <!-- MENSAGEM DE BOAS-VINDAS -->
+        <section id="boas-vindas">
+
+            <h2>🎵 Escolha sua música</h2>
+
+            <p>
+                Peça sua música e faça parte da nossa apresentação.
+            </p>
+
+        </section>
+
+
+        <!-- BUSCA -->
+        <section id="busca-area">
+
+            <label for="campo-busca">
+                Procure sua música
+            </label>
+
+            <input
+                id="campo-busca"
+                type="search"
+                placeholder="Digite o nome da música..."
+                autocomplete="off"
+            >
+
+        </section>
+
+
+        <!-- LISTA DE MÚSICAS -->
+        <section id="musicas-area">
+
+            <h2>Músicas disponíveis</h2>
+
+            <div id="lista-musicas">
+
+                <!--
+                    As músicas serão carregadas
+                    automaticamente pelo banco de dados.
+                -->
+
+                <div id="carregando-musicas">
+                    Carregando músicas...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ÁREA DE MENSAGENS / MODAIS
+
+             Será utilizada posteriormente para:
+
+             1. Gostou da apresentação?
+             2. Sim, quero contribuir
+             3. Quero adquirir um produto
+             4. Agora não
+             5. PIX / QR Code
+             6. Produtos
+             7. Reserva
+             8. Mensagens de confirmação
+             ================================================= -->
+
+        <div
+            id="modal-container"
+            class="modal-container oculto"
+        ></div>
+
+
+        <!-- RODAPÉ -->
+        <footer id="rodape">
+
+            <p>
+                © Lilian e Marinho
+            </p>
+
+            <p>
+                Música ao vivo com carinho ❤️
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- JAVASCRIPT PRINCIPAL -->
+    <script src="./app.js"></script>
+
+</body>
+</html>
