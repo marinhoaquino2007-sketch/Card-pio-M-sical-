@@ -1,0 +1,450 @@
+/* =========================================================
+   PAINEL DOS ARTISTAS
+   LILIAN E MARINHO
+   V2 — CSS NOVO
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #090909;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================================
+   ESTRUTURA
+   ========================================================= */
+
+#painel-app {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.oculto {
+    display: none !important;
+}
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+#login {
+    min-height: calc(100vh - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 30px;
+    background: #171717;
+    border: 1px solid #303030;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+}
+
+.login-card h1 {
+    color: #d9ad57;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.login-card > p {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    outline: none;
+}
+
+.login-card input:focus {
+    border-color: #d9ad57;
+}
+
+#btnEntrar {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #d9ad57;
+    color: #111;
+    font-weight: bold;
+}
+
+#mensagemLogin {
+    margin-top: 15px;
+    text-align: center;
+    color: #ff7777;
+}
+
+/* =========================================================
+   TOPO
+   ========================================================= */
+
+.painel-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.painel-topo h1 {
+    color: #d9ad57;
+    font-size: 28px;
+}
+
+.painel-topo p {
+    color: #aaa;
+    margin-top: 5px;
+}
+
+#btnSair {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #333;
+    color: #fff;
+}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.menu-painel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.menu-painel button {
+    padding: 12px 16px;
+    border: 1px solid #363636;
+    border-radius: 11px;
+    background: #1d1d1d;
+    color: #fff;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.menu-painel button:hover {
+    border-color: #d9ad57;
+    color: #d9ad57;
+}
+
+.menu-painel button.ativo {
+    background: #d9ad57;
+    color: #111;
+    border-color: #d9ad57;
+}
+
+/* =========================================================
+   ÁREA PRINCIPAL
+   ========================================================= */
+
+#conteudoPainel {
+    width: 100%;
+}
+
+.painel-card {
+    background: #171717;
+    border: 1px solid #303030;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.painel-card h2 {
+    color: #d9ad57;
+    margin-bottom: 8px;
+}
+
+.painel-card p {
+    color: #ccc;
+    line-height: 1.5;
+}
+
+.carregando {
+    padding: 35px;
+    text-align: center;
+    color: #aaa;
+}
+
+.erro {
+    padding: 20px;
+    border-radius: 15px;
+    background: #321616;
+    border: 1px solid #743535;
+    color: #ff9999;
+}
+
+/* =========================================================
+   TÍTULO DAS ABAS
+   ========================================================= */
+
+.titulo-aba {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.titulo-aba button {
+    padding: 11px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #d9ad57;
+    color: #111;
+    font-weight: bold;
+}
+
+/* =========================================================
+   PEDIDOS
+   ========================================================= */
+
+.lista-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pedido-admin {
+    padding: 16px;
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 15px;
+}
+
+.pedido-admin h3 {
+    color: #d9ad57;
+    margin-bottom: 8px;
+}
+
+.pedido-admin p {
+    margin: 5px 0;
+}
+
+.acoes-admin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.acoes-admin button {
+    padding: 10px 13px;
+    border: none;
+    border-radius: 9px;
+    background: #d9ad57;
+    color: #111;
+    font-weight: bold;
+}
+
+/* =========================================================
+   MÚSICAS
+   ========================================================= */
+
+.musica-admin {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 15px;
+}
+
+.musica-admin h3 {
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.musica-admin p {
+    color: #aaa;
+}
+
+/* =========================================================
+   PRODUTOS
+   ========================================================= */
+
+.produto-admin {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 15px;
+}
+
+.produto-admin h3 {
+    color: #d9ad57;
+    margin-bottom: 8px;
+}
+
+.produto-admin p {
+    margin: 5px 0;
+}
+
+/* =========================================================
+   SUGESTÕES
+   ========================================================= */
+
+.sugestao-admin {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 15px;
+}
+
+.sugestao-admin h3 {
+    color: #d9ad57;
+    margin-bottom: 7px;
+}
+
+/* =========================================================
+   COMPRAS / RESERVAS
+   ========================================================= */
+
+.compra-admin,
+.reserva-admin {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: #202020;
+    border: 1px solid #333;
+    border-radius: 15px;
+}
+
+.compra-admin h3,
+.reserva-admin h3 {
+    color: #d9ad57;
+    margin-bottom: 8px;
+}
+
+/* =========================================================
+   RANKING
+   ========================================================= */
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid #303030;
+}
+
+.ranking-item strong {
+    color: #d9ad57;
+}
+
+.ranking-item span {
+    margin-left: auto;
+    color: #aaa;
+}
+
+/* =========================================================
+   FORMULÁRIOS
+   ========================================================= */
+
+.campo-admin {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #3a3a3a;
+    border-radius: 11px;
+    background: #222;
+    color: #fff;
+    outline: none;
+}
+
+.campo-admin:focus {
+    border-color: #d9ad57;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    #painel-app {
+        padding: 14px;
+    }
+
+    .painel-topo {
+        align-items: flex-start;
+    }
+
+    .painel-topo h1 {
+        font-size: 22px;
+    }
+
+    .menu-painel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .menu-painel button {
+        width: 100%;
+    }
+
+    .titulo-aba {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .titulo-aba button {
+        width: 100%;
+    }
+
+    .acoes-admin button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .menu-painel {
+        grid-template-columns: 1fr;
+    }
+
+    .login-card {
+        padding: 22px;
+    }
+
+    .painel-topo {
+        flex-direction: column;
+    }
+
+    #btnSair {
+        width: 100%;
+    }
+}

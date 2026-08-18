@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0b0b"
+    >
+
+    <title>Painel | Lilian e Marinho</title>
+
+    <link rel="stylesheet" href="./painel.css">
+</head>
+
+<body>
+
+    <main id="painel-app">
+
+        <!-- LOGIN -->
+
+        <section id="login">
+
+            <div class="login-card">
+
+                <h1>🎵 Painel dos Artistas</h1>
+
+                <p>
+                    Lilian e Marinho
+                </p>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="E-mail"
+                    autocomplete="email"
+                >
+
+                <input
+                    id="senha"
+                    type="password"
+                    placeholder="Senha"
+                    autocomplete="current-password"
+                >
+
+                <button
+                    id="btnEntrar"
+                    type="button"
+                >
+                    Entrar
+                </button>
+
+                <div id="mensagemLogin"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAINEL -->
+
+        <section
+            id="painel"
+            class="oculto"
+        >
+
+            <header class="painel-topo">
+
+                <div>
+
+                    <h1>
+                        🎵 Painel dos Artistas
+                    </h1>
+
+                    <p>
+                        Lilian e Marinho
+                    </p>
+
+                </div>
+
+                <button
+                    id="btnSair"
+                    type="button"
+                >
+                    Sair
+                </button>
+
+            </header>
+
+
+            <!-- MENU -->
+
+            <nav class="menu-painel">
+
+                <button
+                    data-aba="pedidos"
+                    type="button"
+                >
+                    🎤 Pedidos
+                </button>
+
+                <button
+                    data-aba="musicas"
+                    type="button"
+                >
+                    🎵 Músicas
+                </button>
+
+                <button
+                    data-aba="sugestoes"
+                    type="button"
+                >
+                    💡 Sugestões
+                </button>
+
+                <button
+                    data-aba="produtos"
+                    type="button"
+                >
+                    🛍️ Produtos
+                </button>
+
+                <button
+                    data-aba="compras"
+                    type="button"
+                >
+                    🛒 Compras
+                </button>
+
+                <button
+                    data-aba="reservas"
+                    type="button"
+                >
+                    📦 Reservas
+                </button>
+
+                <button
+                    data-aba="ranking"
+                    type="button"
+                >
+                    📊 Ranking
+                </button>
+
+                <button
+                    data-aba="config"
+                    type="button"
+                >
+                    ⚙️ Configurações
+                </button>
+
+            </nav>
+
+
+            <!-- CONTEÚDO -->
+
+            <section id="conteudoPainel">
+
+                <div class="carregando">
+                    Carregando painel...
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./painel.js"></script>
+
+</body>
+
+</html>
