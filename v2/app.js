@@ -406,7 +406,7 @@ async function carregarMusicas() {
 
     const { data, error } = await supabaseClient
         .from("musicas")
-        .select("id, titulo, artista")
+        .select("id, titulo, artista, tom")
         .eq("ativa", true)
         .order("titulo", { ascending: true });
 
@@ -1314,6 +1314,7 @@ async function finalizarPedido() {
         musica_id: musicaSelecionada.id,
         musica: musicaSelecionada.titulo,
         artista: musicaSelecionada.artista || "",
+        tom: musicaSelecionada.tom || "",
         cliente: dadosPedinte.cliente,
         mesa: dadosPedinte.mesa || null,
         recado: dadosPedinte.recado || null,
@@ -2924,6 +2925,9 @@ async function confirmarCompraPix(
             artista:
                 musicaSelecionada.artista || "",
 
+                tom:
+                musicaSelecionada.tom || "",
+
             cliente:
                 dadosPedinte.cliente,
 
@@ -3725,6 +3729,9 @@ async function confirmarReserva(
             artista:
                 musicaSelecionada.artista || "",
 
+                tom:
+                musicaSelecionada.tom || "",
+                
             cliente:
                 dadosPedinte.cliente,
 

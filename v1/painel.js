@@ -831,15 +831,23 @@ async function carregarPedidos() {
                 </strong>
 
                 <span>
-                    Artista:
-                    ${escapar(
-                        pedido.artista ||
-                        "-"
-                    )}
-                </span>
+    Artista:
+    ${escapar(
+        pedido.artista ||
+        "-"
+    )}
+</span>
 
-                <span>
-                    Cliente:
+<span>
+    Tom:
+    ${escapar(
+        pedido.tom ||
+        "-"
+    )}
+</span>
+
+<span>
+    Cliente:
                     ${escapar(
                         pedido.cliente ||
                         "-"
@@ -1526,6 +1534,16 @@ function novaMusica() {
                 placeholder="Digite o artista"
             >
 
+            <label>
+    Tom da música
+</label>
+
+<input
+    id="novaMusicaTom"
+    type="text"
+    placeholder="Ex.: C, D, E, F, G, A, B, Am, Dm..."
+>
+
             <div class="acoes-formulario">
 
                 <button
@@ -1548,7 +1566,6 @@ function novaMusica() {
     `);
 
 }
-
 
 /* =========================================================
    SALVAR MÚSICA
@@ -1573,6 +1590,13 @@ async function salvarMusica() {
             ?.value
             .trim();
 
+            const tom =
+    document
+        .getElementById(
+            "novaMusicaTom"
+        )
+        ?.value
+        .trim();
 
     if (!nome) {
 
@@ -1590,13 +1614,13 @@ async function salvarMusica() {
     } =
         await supabaseClient
             .from("musicas")
-           .insert({
+.insert({
 
     titulo: nome,
-    artista
+    artista: artista,
+    tom: tom || ""
 
 });
-
 
     if (error) {
 

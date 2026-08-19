@@ -1268,10 +1268,17 @@ async function carregarMusicas() {
     )}
 </strong>
 
-                    <span>
+                   <span>
                         Artista:
                         ${escapar(
                             musica.artista || "-"
+                        )}
+                    </span>
+
+                    <span>
+                        Tom:
+                        ${escapar(
+                            musica.tom || "-"
                         )}
                     </span>
 
@@ -1526,8 +1533,17 @@ function novaMusica() {
                 placeholder="Digite o artista"
             >
 
-            <div class="acoes-formulario">
+            <label>
+                Tom da música
+            </label>
 
+            <input
+                id="novaMusicaTom"
+                type="text"
+                placeholder="Ex.: C, D, E, F#, G, Am..."
+            >
+
+            <div class="acoes-formulario">
                 <button
                     class="botao-principal"
                     onclick="salvarMusica()"
@@ -1548,7 +1564,6 @@ function novaMusica() {
     `);
 
 }
-
 
 /* =========================================================
    SALVAR MÚSICA
